@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ 
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    /* max-width: 0%; */
+    }
+    .example::-webkit-scrollbar {
+        display: none;
+      }
+      
+      /* Hide scrollbar for IE, Edge and Firefox */
+    
+      .example {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+      }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .header {
+        display: flex;
+        position: relative; /*relative */
+    }
+    
+    #cameraImage {
+    width: 400px;
+    height: 250px;
+    margin-top: 125px;
+    }
+    
+    .menu{
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+    }
+    
+    .logo img {
+        max-width: 275px; /* Cambia el valor segÃºn el tamaÃ±o deseado */
+        height: auto;
+        display: block; /* Esto ayuda a manejar el espacio alrededor de la imagen */
+        margin: 0 auto; /* Centra la imagen horizontalmente en el enlace */
+    }
+    
+    
+    .menu .navbar ul li{
+        position: relative;
+        float: left;
+    }
+    
+    .menu .navbar ul li a{
+        font-size: 18px;
+        padding: 20px;
+        color: #303030; /* esto se puede cambiar para usar nuestra paleta de colores*/
+        display: block;
+        font-weight: 600;
+    }
+    
+    #menu{
+        display: none;
+    }
+    
+    .menu-icono{
+        width: 25px;
+    }
+    
+    .menu label{
+        cursor: pointer;
+        display: none;
+    }
+    
+    .bg{
+        position: absolute;
+        width: 3000px;
+        z-index: -1;
+        right: 0;
+    }
+    
+    
+    .esp{
+        position: absolute;
+        top: 700px;
+        bottom: 0;
+        width: 350px;
+    }
+    
+    .header-info{
+        display: flex;
+        align-items: center;
+        margin-top: 100px;
+    }
+    
+    .header-txt{
+        width: 50%;
+        padding-right: 35px;
+    }
+    
+    .header-txt h1{
+        font-size: 55px;
+        line-height: 70px;
+        font-weight: 600;
+        color: #303030; /* esto se puede cambiar para usar nuestra paleta de colores*/
+        margin-bottom: 25px;
+        text-transform: capitalize;
+    }
+    
+    .header-txt p{
+        font-size: 16px;
+        color: #545454;
+        margin-bottom: 250px;
+    }
+    
+    .btn-1{
+        display: inline-block;
+        background-color: #708848; /* esto se puede cambiar para usar nuestra paleta de colores*/
+        padding: 13px 30px;
+        border-radius: 25px;
+        color: #ffffff;
+        text-transform: capitalize;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        margin-top: -150px;
+    }
+    
+    .btn-1:hover{
+        background-color: #b95c44; /* esto se puede cambiar para usar nuestra paleta de colores*/
+    }
+    
+    .header-img{
+        width: 200px;
+        margin-top: -200px;
+    }
+    
+    .header-img img{
+        width: 650px;
+    }
+
+    /*Aqui213980*/
+    .arrows {
+      font-size:40px;
+      color:red;
+    }
+    td.button {
+      background-color:black;
+      border-radius:25%;
+      box-shadow: 5px 5px #888888;
+    }
+    td.button:active {
+      transform: translate(5px,5px);
+      box-shadow: none; 
+    }
+
+    .noselect {
+      -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+         -khtml-user-select: none; /* Konqueror HTML */
+           -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                      supported by Chrome and Opera */
+    }
+
+    .slidecontainer {
+      width: 100%;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+
+    .slider:hover {
+      opacity: 1;
+    }
+  
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: red;
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: red;
+      cursor: pointer;
+    }
+
+    </style>
+  
+  </head>
+  
+    <header class="header">
+        
+        <div class="menu container">
+            <a href="#" class="logo">
+                <img src="images/Logobg-preview.png" alt="Amary">
+            </a>            
+            <input type="checkbox" id="menu">
+            <nav class="navbar">
+                <ul> <!--Todo este bloque se puede cambiar-->
+                    <li><a href="https://amarycr.com/">Inicio</a></li>
+                    <li><a href="#">Ally</a></li>
+                    <li><a href="http://sobrenosotros.amarycr.com/">Sobre Nosotros</a></li>
+                    <li><a href="https://login.amarycr.com">Iniciar Sesion</a></li>
+                    <li><a href="http://eng.amarycr.com/">English</a></li
+                </ul>
+            </nav>
+        </div>
+    </header>
+  
+  <body class="noselect" align="center" style="background-color:white">
+     
+    <!--h2 style="color: teal;text-align:center;">Wi-Fi Camera &#128663; Control</h2-->
+    
+    <table id="mainTable" style="width:400px;margin:auto;table-layout:fixed" CELLSPACING=10>
+      <tr>
+        <img id="cameraImage" src="" style="width:400px;height:250px"></td>
+      </tr> 
+      
+      <tr>
+        <td style="text-align:left"><b>Luz:</b></td>
+        <td colspan=2>
+          <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="0" class="slider" id="Light" oninput='sendButtonInput("Light",value)'>
+          </div>
+        </td>   
+      </tr>
+      <tr>
+        <td style="text-align:left"><b>Plantas analizadas:</b></td>
+        <td id="plantasAnalizadasCounter" colspan=2>0</td>
+      </tr>
+          
+          <!-- Aquí puedes agregar más contenido relacionado con "Plantas analizadas" si es necesario -->
+        </td>
+      </tr>
+      <tr>
+        <td style="text-align:left"><b>Maleza eliminada:</b></td>
+        <td id="malezaEliminadaCounter" colspan=2>0</td>
+      </tr>
+      <tr>
+
+      </tr>
+      
+    </table>
+
+    <div style="width: 250px; height: 250px; margin: auto;">
+      <canvas id="miGraficoDePastel" width="200" height="200"></canvas>
+    </div>
+    
+    
+
+  
+    <script>
+// Variables globales
+var contadorPlantasAnalizadas = 0;
+var malezaEliminada = 0; // Variable para almacenar la cantidad de maleza eliminada
+var miGrafico; // Almacenar la instancia del gráfico
+
+// Función para actualizar el contador y mostrarlo
+function actualizarContadorPlantasAnalizadas() {
+  contadorPlantasAnalizadas++;
+  document.getElementById("plantasAnalizadasCounter").textContent = contadorPlantasAnalizadas;
+
+  // Calcula la maleza eliminada (un tercio de plantas analizadas)
+  malezaEliminada = Math.floor(contadorPlantasAnalizadas / 3);
+  document.getElementById("malezaEliminadaCounter").textContent = malezaEliminada;
+
+  // Calcula el porcentaje de plantas sin maleza
+  var porcentajePlantasAnalizadas = ((contadorPlantasAnalizadas - malezaEliminada) / contadorPlantasAnalizadas) * 100;
+  var porcentajeMaleza = (malezaEliminada / contadorPlantasAnalizadas) * 100;
+
+  // Actualiza los datos del gráfico
+  if (miGrafico) {
+    miGrafico.data.datasets[0].data = [porcentajePlantasAnalizadas, porcentajeMaleza];
+    miGrafico.update(); // Actualiza el gráfico
+  }
+
+  // Actualiza los porcentajes en tu página si es necesario
+  document.getElementById("porcentajePlantasAnalizadas").textContent = porcentajePlantasAnalizadas.toFixed(2) + "%";
+  document.getElementById("porcentajeMaleza").textContent = porcentajeMaleza.toFixed(2) + "%";
+}
+
+  // Función para iniciar el contador
+  function iniciarContador() {
+    setInterval(actualizarContadorPlantasAnalizadas, 5000); // Actualiza cada 13 segundos
+  }
+
+  // Llama a la función para iniciar el contador
+  iniciarContador();
+
+
+
+      var webSocketCameraUrl = "ws:\/\/" + window.location.hostname + "/Camera";
+      var webSocketCarInputUrl = "ws:\/\/" + window.location.hostname + "/CarInput";      
+      var websocketCamera;
+      var websocketCarInput;
+      
+      function initCameraWebSocket() 
+      {
+        websocketCamera = new WebSocket(webSocketCameraUrl);
+        websocketCamera.binaryType = 'blob';
+        websocketCamera.onopen    = function(event){};
+        websocketCamera.onclose   = function(event){setTimeout(initCameraWebSocket, 2000);};
+        websocketCamera.onmessage = function(event)
+        {
+          var imageId = document.getElementById("cameraImage");
+          imageId.src = URL.createObjectURL(event.data);
+        };
+      }
+      
+      function initCarInputWebSocket() 
+      {
+        websocketCarInput = new WebSocket(webSocketCarInputUrl);
+        websocketCarInput.onopen    = function(event)
+        {
+          var speedButton = document.getElementById("Speed");
+          sendButtonInput("Speed", speedButton.value);
+          var lightButton = document.getElementById("Light");
+          sendButtonInput("Light", lightButton.value);
+        };
+        websocketCarInput.onclose   = function(event){setTimeout(initCarInputWebSocket, 2000);};
+        websocketCarInput.onmessage = function(event){};        
+      }
+      
+      function initWebSocket() 
+      {
+        initCameraWebSocket ();
+        initCarInputWebSocket();
+      }
+
+      function sendButtonInput(key, value) 
+      {
+        var data = key + "," + value;
+        websocketCarInput.send(data);
+      }
+    
+      window.onload = initWebSocket;
+      document.getElementById("mainTable").addEventListener("touchend", function(event){
+        event.preventDefault()
+      });    
+      
+// Accede al contexto del canvas donde se dibujará el gráfico
+var ctx = document.getElementById("miGraficoDePastel").getContext('2d');
+
+// Define los datos para el gráfico
+var data = {
+  labels: ["Plantas sin Maleza", "Plantas con Maleza"],
+  datasets: [{
+    data: [contadorPlantasAnalizadas, malezaEliminada],
+    backgroundColor: ["#708848", "#e8ba91"], // Colores para las porciones del gráfico
+  }]
+};
+
+var miGrafico = new Chart(ctx, {
+  type: 'pie',
+  data: data,
+  options: {
+    tooltips: {
+      callbacks: {
+        label: function(tooltipItem, data) {
+          var dataset = data.datasets[tooltipItem.datasetIndex];
+          var label = data.labels[tooltipItem.index] || '';
+          var value = dataset.data[tooltipItem.index];
+          return label + ': ' + value + ' %';
+        }
+      }
+    }
+  }
+});
+
+
+
+
+
+
+
+
+
+  // Al cargar la página, crea el gráfico inicial
+  document.addEventListener("DOMContentLoaded", function() {
+  var ctx = document.getElementById("miGraficoDePastel").getContext('2d');
+
+  var data = {
+    labels: ["Plantas sin Maleza", "Maleza"],
+    datasets: [{
+      data: [100, 0], // Inicialmente, no hay maleza eliminada
+      backgroundColor: ["#36A2EB", "#FF6384"],
+    }]
+  };
+
+  miGrafico = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+  });
+});
+
+
+    </script>
+  </body>    
+</html>

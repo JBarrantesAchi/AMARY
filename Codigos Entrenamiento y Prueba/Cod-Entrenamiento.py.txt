@@ -1,0 +1,51 @@
+import tensorflow as tf
+import numpy as np
+
+# Definir el modelo CNN
+model = tf.keras.models.Sequential()
+model.add(tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(500, 500, 1)))  # Cambio en la capa de entrada
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Conv2D(64, (3, 3), activation='relu'))
+model.add(tf.keras.layers.MaxPooling2D(pool_size=(2, 2)))
+model.add(tf.keras.layers.Flatten())
+model.add(tf.keras.layers.Dense(128, activation='relu'))
+model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
+
+# Compilar el modelo
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Preprocesar los datos
+ancho_imagen = 500
+alto_imagen = 500
+batch_size = 32
+
+train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0/255)
+
+# Cambio en la lectura de imágenes en blanco y negro (color_mode='grayscale')
+train_generator = train_datagen.flow_from_directory(
+    'E:\\Codigos Expo\\Codigo-Det\\Imagenes\\Imagenes ByN',
+    target_size=(ancho_imagen, alto_imagen),
+    batch_size=batch_size,
+    class_mode='binary',
+    color_mode='grayscale' #Este hace que sirva con imagenes ByN
+)
+
+# Entrenar el modelo
+model.fit(train_generator, epochs=25)
+
+# Guardar el modelo entrenado
+model.save('modelo_entrenado.h5')
+
+print("Modelo entrenado guardado.")
+
+# Realizar predicciones
+image_path = 'E:\\Codigos Expo\\Codigo-Det\\Imagenes\\Imagenes Prueba\\Imagen10.jpg'
+image = tf.keras.preprocessing.image.load_img(image_path, target_size=(500, 500), color_mode='grayscale')  # Cambio en la lectura de la imagen
+image = tf.keras.preprocessing.image.img_to_array(image)
+image = np.expand_dims(image, axis=0)
+prediction = model.predict(image)
+
+if prediction[0][0] > 0.5:
+    print("¡Hay maleza!")
+else:
+    print("No hay maleza.")
